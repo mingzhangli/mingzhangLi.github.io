@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Title -->
+<title>TypeScript 学习 - Hexo</title>
+
+<!-- Icon -->
+<link rel="icon" href="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg">
+
+<!-- Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null, this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+
+
+
+<!-- Style -->
+
+<link rel="stylesheet" href="/styles/main.css">
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-theme-pure@1.0.1/dist/main.css"> -->
+
+
+
+
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+    <meta name="generator" content="Hexo 7.3.0"></head>
+    <body>
+        <div class="main gt-bg-theme-color-first">
+            <div class="main-content">
+                <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Hexo
+        </div>
+    </div>
+    <button aria-label="Navbar Toggler" class="navbar-toggler" type="button" id="changeNavbar">
+        <i class="gt-c-content-color-first" style="font-size: 18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18px" fill="currentColor">
+                <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+            </svg>
+        </i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center; ">
+            
+                <div class="nav-item">
+                    <a href="/" class="menu gt-a-link" target="_self">首页</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/archives/" class="menu gt-a-link" target="_self">归档</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/tags/" class="menu gt-a-link" target="_self">标签</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/friends/" class="menu gt-a-link" target="_self">友链</a>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function() {
+        let element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else { 
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+                <div class="post-container">
+    <div class="post-detail gt-bg-theme-color-second gt-c-content-color-first">
+        <article class="gt-post-content">
+            <h1 class="post-title">TypeScript 学习</h1>
+            <div class="post-info">
+                <time class="post-time gt-c-content-color-first">
+                    · 2024-08-16 ·</time>
+                
+                    
+                
+            </div>
+            <hr>
+            <div class="post-content gt-c-content-color-first">
+                <h3 id="什么是TypeScript？"><a href="#什么是TypeScript？" class="headerlink" title="什么是TypeScript？"></a>什么是TypeScript？</h3><pre><code>TypeScript 是 JavaScript 的类型的超集，⽀持 ES6 语法，⽀持⾯向对象编程的概念，如类、接⼝、继承、泛型等
+</code></pre>
+<p>超集:如果⼀个集合 A ⾥⾯的的所有元素集合 B ⾥⾯都存在，那么我们可以理解集合 B 是集合 A 的超集，集合 A 为集合 B 的⼦集</p>
+<p><img src="https://img.renlijia.com/202408/RLJo43GcK44c79SVECKj5bcrlu-722-267.png" title="ts超集"></p>
+<ul>
+<li>TypeScript其是⼀种静态类型检查的语⾔，提供了类型注解，在代码编译阶段就可以检查出数据类型的错误,同时扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在TypeScript 下⼯作;</li>
+<li>为了保证兼容性， TypeScript 在编译阶段需要编译器编译成纯 JavaScript 来运⾏，是为⼤型应⽤之开发⽽设计的语⾔;</li>
+</ul>
+<p>.ts文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const tmp: string = &quot;james&quot;;</span><br><span class="line">console.log(tmp);</span><br></pre></td></tr></table></figure>
+<p>编译后</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const tmp = &quot;james&quot;;</span><br><span class="line">console.log(tmp);</span><br></pre></td></tr></table></figure>
+
+<h3 id="基础数据类型"><a href="#基础数据类型" class="headerlink" title="基础数据类型"></a>基础数据类型</h3><p>布尔类型 (boolean): 代表 true 或 false。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let isActive: boolean = true;</span><br></pre></td></tr></table></figure>
+
+<p>数字类型 (number): 代表整数和浮点数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let age: number = 25;</span><br></pre></td></tr></table></figure>
+<p>字符串类型 (string): 代表文本数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let name: string = &quot;Monica&quot;;</span><br></pre></td></tr></table></figure>
+<p>数组类型 (Array): 代表一组相同类型的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let scores: number[] = [90, 85, 88];</span><br><span class="line">let scores:Array&lt;number&gt; = [90, 85, 88]</span><br></pre></td></tr></table></figure>
+<p>元组类型 (Tuple): </p>
+<ul>
+<li>元组是TypeScript中特有的类型，工作方式类似数组，最重要的特性是 可以限制数组元素的个数和类型，适合用来实现多值返回</li>
+<li>元组类型只能表示一个已知元素数量和类型的数组，长度已指定，越界访问会提示错误。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let person: [string, number, boolean] ;</span><br><span class="line">person = [&quot;Alice&quot;, 30,true]</span><br><span class="line">person = [&quot;Alice&quot;, 30,1] //ts error: 不能将类型“number”分配给类型“boolean”</span><br></pre></td></tr></table></figure>
+元组的解构赋值 </li>
+<li>元组的解构赋值跟正常数组一样，但是要注意：解构数组元素的个数不能超过元组中元素的个数，不然会报错：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr: [string, number] = [&#x27;hello&#x27;, 1]</span><br><span class="line">const [a, b, c] = arr; // ts error: 长度为 &quot;2&quot; 的元组类型 &quot;[string, number]&quot; 在索引 &quot;2&quot; 处没有元素。ts(2493)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>枚举类型 (enum): 代表一组命名的常量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enum Color &#123; Red, Green, Blue &#125;</span><br><span class="line">let c: Color = Color.Green</span><br></pre></td></tr></table></figure>
+<p>任何类型 (any): 代表任意类型，通常用于不确定类型的场景。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let randomValue: any = 10;</span><br></pre></td></tr></table></figure>
+<p>空类型 (void): 表示没有任何类型，通常用于函数没有返回值的情况。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function fn(): void &#123;</span><br><span class="line">    console.log(&quot;Hello, World!&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>未定义类型 (undefined): 表示变量未赋值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let u: undefined = undefined;</span><br></pre></td></tr></table></figure>
+<p>空类型 (null): 表示一个空值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let n: null = null;</span><br></pre></td></tr></table></figure>
+
+<p><strong>类型推断</strong><br>TS可以基于赋值表达式，推断出对应变量的类型，这种能力被称为 类型推断;</p>
+<p>具体来说，就是TS中，具有<strong>初始化值的变量</strong>，有<strong>默认值的函数参数</strong>，<strong>函数返回的类型</strong>，都可以根据上下文推断出来。 </p>
+<p>当然，如果定义的时候没有赋值，那么不管之后变量的值是否存在，都会被自动推断成any而完全不被类型检查。 </p>
+<p><strong>类型断言</strong><br>    类型断言简单点来说就是直接告诉TS这个变量是什么类型，让它放心大胆的执行。<br>    类型断言有两种写法：<br>    1. 值 as 类型 &#x3D;&#x3D;&#x3D;&gt; item.code as string<br>    2. &lt;类型&gt;<br>但是在react的JSX中，&lt;类型&gt;值这种写法会产生语法冲突，因为它除了表示类型断言之外，也可能是表示一个 泛型; </p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> A &#123;</span><br><span class="line">  <span class="attr">run</span>: <span class="function">() =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> B &#123;</span><br><span class="line">  <span class="attr">go</span>: <span class="function">() =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fun</span> (<span class="params"><span class="attr">c</span>: A | B</span>) &#123;</span><br><span class="line">  c.<span class="title function_">run</span>(); <span class="comment">// ts error: 类型“A | B”上不存在属性“run”。</span></span><br><span class="line">  	   <span class="comment">// 类型“B”上不存在属性“run”。ts(2339)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用断言</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fun</span> (<span class="params"><span class="attr">c</span>: A | B</span>) &#123;</span><br><span class="line">  (c <span class="keyword">as</span> A).<span class="title function_">run</span>(); <span class="comment">// true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>非空断言<br>非空断言通过在变量后面添加 **!**来断言操作值是非 null和 undefined类型：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">a</span>: <span class="built_in">string</span> | <span class="literal">null</span>;</span><br><span class="line">a.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>); <span class="comment">// ts error: 在赋值前使用了变量“a”。ts(2454) 对象可能为 &quot;null&quot;。ts(2531)</span></span><br><span class="line">a!.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>); <span class="comment">// true;</span></span><br></pre></td></tr></table></figure>
+<p>直接在声明变量时使用<strong>非空断言</strong>，可以告诉编译器该属性会被明确地赋值：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">a</span>: <span class="built_in">string</span>;</span><br><span class="line">a.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>); <span class="comment">// ts error: 在赋值前使用了变量“a”。ts(2454)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用非空断言</span></span><br><span class="line"><span class="keyword">let</span> a!: <span class="built_in">string</span>;</span><br><span class="line">a.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>双重断言<br>双重断言是一种特殊的类型断言方式,它允许我们将一个类型强制转换为另一个类型,即使这两个类型之间没有直接的关系。  </p>
+<p>这里的 Type1 和 Type2 可以是任意两种类型。<br>使用双重断言的主要目的是解决编译器无法自动推导出正确类型的情况。比如:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">someValue</span>: <span class="built_in">unknown</span> = <span class="string">&quot;this is a string&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">lengthOfValue</span>: <span class="built_in">number</span> = (someValue <span class="keyword">as</span> <span class="built_in">any</span> <span class="keyword">as</span> <span class="built_in">string</span>).<span class="property">length</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>联合类型（|）</strong><br>联合类型是一种复合类型,它允许一个变量可以是多种类型中的任意一种。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">myVariable</span>: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">myVariable = <span class="string">&quot;hello&quot;</span>; <span class="comment">// 可以</span></span><br><span class="line">myVariable = <span class="number">42</span>; <span class="comment">// 也可以</span></span><br></pre></td></tr></table></figure>
+<p>联合类型使用场景</p>
+<ul>
+<li>1.函数参数: 当一个函数可以接受多种类型的参数时,可以使用联合类型来定义参数类型。<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">processData</span>(<span class="params"><span class="attr">data</span>: <span class="built_in">string</span> | <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  <span class="comment">// 函数逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>2.返回值类型: 当一个函数可以返回多种类型的值时,可以使用联合类型来定义返回值类型。<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">fetchData</span>(<span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span> | <span class="built_in">number</span>&gt; &#123;</span><br><span class="line">  <span class="comment">// 函数逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>3.变量赋值: 当一个变量可以被赋予多种类型的值时,可以使用联合类型来定义变量类型。<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">result</span>: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">result = <span class="string">&quot;success&quot;</span>; <span class="comment">// 可以</span></span><br><span class="line">result = <span class="number">42</span>; <span class="comment">// 也可以</span></span><br></pre></td></tr></table></figure>
+<strong>类型别名( type )</strong><br>使用 type给类型取了一个新的名字，而不是创建了一个新的类型<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="variable constant_">ID</span> = <span class="built_in">number</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">userId</span>: <span class="variable constant_">ID</span> = <span class="number">123</span>; <span class="comment">// userId 的类型是 number，但语义更明确</span></span><br></pre></td></tr></table></figure></li>
+<li>为联合类型创建别名:<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Status</span> = <span class="string">&#x27;pending&#x27;</span> | <span class="string">&#x27;success&#x27;</span> | <span class="string">&#x27;error&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">currentStatus</span>: <span class="title class_">Status</span> = <span class="string">&#x27;pending&#x27;</span>; <span class="comment">// currentStatus 的类型是 &#x27;pending&#x27; | &#x27;success&#x27; | &#x27;error&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>为对象类型创建别名:<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Person</span> = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">age</span>: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">john</span>: <span class="title class_">Person</span> = &#123; <span class="attr">name</span>: <span class="string">&#x27;John&#x27;</span>, <span class="attr">age</span>: <span class="number">30</span> &#125;; <span class="comment">// john 的类型是 &#123; name: string; age: number; &#125;</span></span><br></pre></td></tr></table></figure>
+<strong>交叉类型（&amp;）</strong><br>交叉类型真正的作用在于将多个接口类型合并成一个类型，从而实现所谓的合并接口类型：</li>
+</ul>
+
+            </div>
+        </article>
+    </div>
+    <br>
+    
+        <div class="next-prev-post">
+            
+            
+                <div class="next-post">
+                    <div class="next gt-c-content-color-first">
+                        下一篇：<a href="/2024/08/14/My-second-Post/" 
+                            class="post-title gt-a-link">My second Post</a>
+                    </div>
+                </div>
+            
+        </div>
+    
+    
+
+    
+
+</div>
+
+                <div class="site-footer gt-c-content-color-first">
+    <div class="footer-main">
+        <!-- 建议保留版权信息或者添加主题信息到友链，感谢您的理解 -->
+        <!-- 文件位置：layout/_includes/footer.ejs -->
+        <span style="text-align: right; float: right;">Theme <a 
+            href="https://github.com/renbaoshuo/hexo-theme-pure" target="_blank">Pure</a> | Powered by <a 
+            href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span style="text-align: left;">Footer HTML
+</span>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </body>
+</html>
