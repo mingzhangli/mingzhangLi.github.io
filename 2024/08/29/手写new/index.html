@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Title -->
+<title>手写new构造函数 - Hexo</title>
+
+<!-- Icon -->
+<link rel="icon" href="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg">
+
+<!-- Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null, this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+
+
+
+<!-- Style -->
+
+<link rel="stylesheet" href="/styles/main.css">
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-theme-pure@1.0.1/dist/main.css"> -->
+
+
+
+
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+    <meta name="generator" content="Hexo 7.3.0"></head>
+    <body>
+        <div class="main gt-bg-theme-color-first">
+            <div class="main-content">
+                <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Hexo
+        </div>
+    </div>
+    <button aria-label="Navbar Toggler" class="navbar-toggler" type="button" id="changeNavbar">
+        <i class="gt-c-content-color-first" style="font-size: 18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18px" fill="currentColor">
+                <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+            </svg>
+        </i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center; ">
+            
+                <div class="nav-item">
+                    <a href="/" class="menu gt-a-link" target="_self">首页</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/archives/" class="menu gt-a-link" target="_self">归档</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/tags/" class="menu gt-a-link" target="_self">标签</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/friends/" class="menu gt-a-link" target="_self">友链</a>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function() {
+        let element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else { 
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+                <div class="post-container">
+    <div class="post-detail gt-bg-theme-color-second gt-c-content-color-first">
+        <article class="gt-post-content">
+            <h1 class="post-title">手写new构造函数</h1>
+            <div class="post-info">
+                <time class="post-time gt-c-content-color-first">
+                    · 2024-08-29 ·</time>
+                
+                    
+                
+            </div>
+            <hr>
+            <div class="post-content gt-c-content-color-first">
+                <h3 id="new的概念"><a href="#new的概念" class="headerlink" title="new的概念"></a>new的概念</h3><p>我们知道，如果不做特殊的处理，new构造函数时会发生下面的几步。</p>
+<ul>
+<li>首先创建一个新对象，这个新对象的__proto__属性只想构造函数的prototype属性</li>
+<li>此时构造函数执行环境的this指向这个新对象</li>
+<li>执行构造函数中的代码，一般是通过this给新对象添加新的成员属性和方法。</li>
+<li>最后返回这个新对象。</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Test</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(<span class="variable language_">this</span>));</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">__proto__</span>.<span class="property">constructor</span> === <span class="title class_">Test</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = <span class="string">&quot;jack&#x27;;</span></span><br><span class="line"><span class="string">    this.age = 18;</span></span><br><span class="line"><span class="string">    console.log(JSON.stringify(this));</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">var a = new Test();</span></span><br><span class="line"><span class="string">// Chrome控制台输出以下内容</span></span><br><span class="line"><span class="string">// &#123;&#125;</span></span><br><span class="line"><span class="string">// true</span></span><br><span class="line"><span class="string">// &#123;&quot;</span>name<span class="string">&quot;:&quot;</span>jack<span class="string">&quot;,&quot;</span>age<span class="string">&quot;:18&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这完全符合我们的认知，没毛病。</p>
+<h4 id="实现一个new"><a href="#实现一个new" class="headerlink" title="实现一个new"></a>实现一个new</h4><p>实现一个new也就意味着不能在使用关键new，那么就得按照概念的描述，一步步来匹配。  </p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">function</span> <span class="title function_">customNew</span>(<span class="params">constructor, ...args</span>) &#123;</span><br><span class="line">    <span class="comment">// 1. 创建一个新对象</span></span><br><span class="line">    <span class="keyword">const</span> obj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 设置新对象的原型</span></span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">setPrototypeOf</span>(obj, constructor.<span class="property"><span class="keyword">prototype</span></span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 执行构造函数，并将this绑定到新对象</span></span><br><span class="line">    <span class="keyword">const</span> result = constructor.<span class="title function_">apply</span>(obj, args);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 如果构造函数返回一个对象，就返回那个对象；否则，返回新创建的对象</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">typeof</span> result === <span class="string">&#x27;object&#x27;</span> &amp;&amp; result !== <span class="literal">null</span>) ? result : obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 示例用法</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayHello</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> and I&#x27;m <span class="subst">$&#123;<span class="variable language_">this</span>.age&#125;</span> years old.`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用我们的customNew函数</span></span><br><span class="line"><span class="keyword">const</span> john = <span class="title function_">customNew</span>(<span class="title class_">Person</span>, <span class="string">&quot;John&quot;</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(john); <span class="comment">// &#123; name: &quot;John&quot;, age: 30 &#125;</span></span><br><span class="line">john.<span class="title function_">sayHello</span>(); <span class="comment">// &quot;Hello, my name is John and I&#x27;m 30 years old.&quot;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(john <span class="keyword">instanceof</span> <span class="title class_">Person</span>); <span class="comment">// true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="构造函数显式return"><a href="#构造函数显式return" class="headerlink" title="构造函数显式return"></a>构造函数显式return</h4><p>所谓显式return，就是在构造函数中主动return一个对象，这里说的对象不仅包括Object，也包括Array，Date等对象。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">customNew</span>(<span class="title class_">Person</span>,<span class="string">&#x27;chenlong&#x27;</span>,<span class="number">18</span>)  <span class="comment">// &#123;&quot;name&quot;: &quot;chenlong&quot;,&quot;age&quot;: 18&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>构造函数内部，自己手动return一个对象，那么调用构造函数，会返回这个手动return的对象，而不是返回构造函数内部的属性</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">      <span class="keyword">return</span>  &#123;</span><br><span class="line">          <span class="attr">start</span>:<span class="string">`<span class="subst">$&#123;name&#125;</span>+<span class="subst">$&#123;age&#125;</span>岁`</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">customNew</span>(<span class="title class_">Person</span>,<span class="string">&#x27;chenlong&#x27;</span>,<span class="number">18</span>) ) <span class="comment">// &#123;&quot;start&quot;: &quot;chenlong+18岁&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>return一个普通类型数据时，不会影响结果，依然会返回new出来的这个新对象。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">12</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="title function_">customNew</span>(<span class="title class_">Person</span>,<span class="string">&#x27;chenlong&#x27;</span>,<span class="number">18</span>)  <span class="comment">// &#123;&quot;name&quot;: &quot;chenlong&quot;,&quot;age&quot;: 18&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们也应该知道，new构造函数就是为了创建对象，你return一个字符串之类的普通类型数据是没有任务意义的，所以我们的关注点应该是return一个特殊的对象。</p>
+
+            </div>
+        </article>
+    </div>
+    <br>
+    
+        <div class="next-prev-post">
+            
+            
+                <div class="next-post">
+                    <div class="next gt-c-content-color-first">
+                        下一篇：<a href="/2024/08/16/hello-world/" 
+                            class="post-title gt-a-link">TypeScript 学习</a>
+                    </div>
+                </div>
+            
+        </div>
+    
+    
+
+    
+
+</div>
+
+                <div class="site-footer gt-c-content-color-first">
+    <div class="footer-main">
+        <!-- 建议保留版权信息或者添加主题信息到友链，感谢您的理解 -->
+        <!-- 文件位置：layout/_includes/footer.ejs -->
+        <span style="text-align: right; float: right;">Theme <a 
+            href="https://github.com/renbaoshuo/hexo-theme-pure" target="_blank">Pure</a> | Powered by <a 
+            href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span style="text-align: left;">Footer HTML
+</span>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </body>
+</html>
