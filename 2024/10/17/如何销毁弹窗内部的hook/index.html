@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Title -->
+<title>如何销毁弹窗内部hook的状态 - 李明漳的blog</title>
+
+<!-- Icon -->
+<link rel="icon" href="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg">
+
+<!-- Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null, this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+
+
+
+<!-- Style -->
+
+<link rel="stylesheet" href="/styles/main.css">
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-theme-pure@1.0.1/dist/main.css"> -->
+
+
+
+
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+    <meta name="generator" content="Hexo 7.3.0"></head>
+    <body>
+        <div class="main gt-bg-theme-color-first">
+            <div class="main-content">
+                <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            李明漳的blog
+        </div>
+    </div>
+    <button aria-label="Navbar Toggler" class="navbar-toggler" type="button" id="changeNavbar">
+        <i class="gt-c-content-color-first" style="font-size: 18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18px" fill="currentColor">
+                <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+            </svg>
+        </i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center; ">
+            
+                <div class="nav-item">
+                    <a href="/" class="menu gt-a-link" target="_self">首页</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/archives/" class="menu gt-a-link" target="_self">归档</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/tags/" class="menu gt-a-link" target="_self">标签</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/friends/" class="menu gt-a-link" target="_self">友链</a>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function() {
+        let element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else { 
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+                <div class="post-container">
+    <div class="post-detail gt-bg-theme-color-second gt-c-content-color-first">
+        <article class="gt-post-content">
+            <h1 class="post-title">如何销毁弹窗内部hook的状态</h1>
+            <div class="post-info">
+                <time class="post-time gt-c-content-color-first">
+                    · 2024-10-17 ·</time>
+                
+                    
+                
+            </div>
+            <hr>
+            <div class="post-content gt-c-content-color-first">
+                <ul>
+<li>我们开发的时候在使用antd的modal或者drawer组件的时候，经常遇到一种情况，在关闭弹窗之后重新打开的时候，弹窗组件内部的state还是保留着之前的值，并没有被初始化。</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import &#123; forwardRef, useImperativeHandle, useState &#125; from &#x27;react&#x27;;</span><br><span class="line">import &#123; Modal &#125; from &#x27;rlj-design&#x27;;</span><br><span class="line">import &#123; CSearch &#125; from &#x27;@/components&#x27;;</span><br><span class="line"></span><br><span class="line">const TestModal = forwardRef((props, ref) =&gt; &#123;</span><br><span class="line">  const [open, setOpen] = useState(false);</span><br><span class="line"></span><br><span class="line">  const [searchVal, setSearchVal] = useState(&#x27;&#x27;);</span><br><span class="line">  useImperativeHandle(ref, () =&gt; (&#123;</span><br><span class="line">    open: () =&gt; &#123;</span><br><span class="line">      setOpen(true);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  const handleSearch = (val: string) =&gt; &#123;</span><br><span class="line">    setSearchVal(val);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  const onClose = () =&gt; &#123;</span><br><span class="line">    setOpen(false);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  console.log(searchVal, &#x27;.searchVal&#x27;);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;Modal title=&quot;测试弹窗&quot; open=&#123;open&#125;  destroyOnClose onCancel=&#123;onClose&#125;&gt;</span><br><span class="line">      &lt;CSearch onSearchCustomize=&#123;handleSearch&#125; /&gt;</span><br><span class="line">    &lt;/Modal&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line">export default TestModal;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img.png" alt="img.png"></p>
+<ul>
+<li>现在是在搜索框，我搜索了444</li>
+<li>我下次进来肯定是希望是初始化，搜索框为空</li>
+</ul>
+<p><img src="/img_1.png" alt="img_1.png">  </p>
+<ul>
+<li>但是无论是从视觉上面看还是控制台打印的数据来看，这个搜索框的值没有初始化</li>
+</ul>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>antd的modal组件或者drawer组件，你添加的destroyOnClose是只能销毁被modal包裹的组件。也就是说这个modal组件的声明的state是销毁不了的。</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><h4 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h4><ul>
+<li>首先他的state是销毁不了，那么我们是可以用第一种方法，在关闭的时候的方法手动set，就跟下面的代码一样，但是这样写太局限了，如果你这个modal组件比较复杂，有多个state，那么是不是得一个一个手动set。<ul>
+<li>这种方法一般是弹窗里面的组件的内容不复杂，只有一两个state <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const onClose = () =&gt; &#123;</span><br><span class="line">  setOpen(false);</span><br><span class="line">  setSearchVal(&#x27;&#x27;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h4><ul>
+<li>我们要销毁state，那么我们可以modal组件都抽象写在一个组件，那么直接通过destroyOnClose销毁这个组件，然后这个state，也会重置了<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">  return (</span><br><span class="line">    &lt;Modal</span><br><span class="line">      title=&quot;测试弹窗&quot;</span><br><span class="line">      key=&#123;open ? &#x27;open&#x27; : &#x27;closed&#x27;&#125;</span><br><span class="line">      open=&#123;open&#125;</span><br><span class="line">      onCancel=&#123;onClose&#125;</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;Son /&gt;</span><br><span class="line">    &lt;/Modal&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const Son = () =&gt; &#123;</span><br><span class="line">  const [searchVal, setSearchVal] = useState(&#x27;&#x27;);</span><br><span class="line"></span><br><span class="line">  console.log(searchVal, &#x27;..searchVal&#x27;);</span><br><span class="line">  const handleSearch = (val: string) =&gt; &#123;</span><br><span class="line">    setSearchVal(val);</span><br><span class="line">  &#125;;</span><br><span class="line">  return &lt;CSearch onSearchCustomize=&#123;handleSearch&#125; /&gt;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+            </div>
+        </article>
+    </div>
+    <br>
+    
+        <div class="next-prev-post">
+            
+            
+                <div class="next-post">
+                    <div class="next gt-c-content-color-first">
+                        下一篇：<a href="/2024/09/28/Chrome%2089%20%E6%9B%B4%E6%96%B0%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E9%A1%BA%E5%BA%8F/" 
+                            class="post-title gt-a-link">Chrome 89 更新事件触发顺序</a>
+                    </div>
+                </div>
+            
+        </div>
+    
+    
+
+    
+
+</div>
+
+                <div class="site-footer gt-c-content-color-first">
+    <div class="footer-main">
+        <!-- 建议保留版权信息或者添加主题信息到友链，感谢您的理解 -->
+        <!-- 文件位置：layout/_includes/footer.ejs -->
+        <span style="text-align: right; float: right;">Theme <a 
+            href="https://github.com/renbaoshuo/hexo-theme-pure" target="_blank">Pure</a> | Powered by <a 
+            href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span style="text-align: left;">Footer HTML
+</span>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </body>
+</html>
