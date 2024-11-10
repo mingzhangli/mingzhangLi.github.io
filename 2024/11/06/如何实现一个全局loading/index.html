@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Title -->
+<title>实现一个页面全屏loading - 李明漳的blog</title>
+
+<!-- Icon -->
+<link rel="icon" href="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg">
+
+<!-- Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null, this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+
+
+
+<!-- Style -->
+
+<link rel="stylesheet" href="/styles/main.css">
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-theme-pure@1.0.1/dist/main.css"> -->
+
+
+
+
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+    <meta name="generator" content="Hexo 7.3.0"></head>
+    <body>
+        <div class="main gt-bg-theme-color-first">
+            <div class="main-content">
+                <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            李明漳的blog
+        </div>
+    </div>
+    <button aria-label="Navbar Toggler" class="navbar-toggler" type="button" id="changeNavbar">
+        <i class="gt-c-content-color-first" style="font-size: 18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18px" fill="currentColor">
+                <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+            </svg>
+        </i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center; ">
+            
+                <div class="nav-item">
+                    <a href="/" class="menu gt-a-link" target="_self">首页</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/archives/" class="menu gt-a-link" target="_self">归档</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/tags/" class="menu gt-a-link" target="_self">标签</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/friends/" class="menu gt-a-link" target="_self">友链</a>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function() {
+        let element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else { 
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+                <div class="post-container">
+    <div class="post-detail gt-bg-theme-color-second gt-c-content-color-first">
+        <article class="gt-post-content">
+            <h1 class="post-title">实现一个页面全屏loading</h1>
+            <div class="post-info">
+                <time class="post-time gt-c-content-color-first">
+                    · 2024-11-06 ·</time>
+                
+                    
+                
+            </div>
+            <hr>
+            <div class="post-content gt-c-content-color-first">
+                <p>最近在开发的时候，产品总是会提一些关于loading的bug，比喻表单提交完按钮要loading，或者渲染的内容要加loading。有时候页面的组件结构比较复杂也可能就会漏掉加loading。会导致代码里声明的state有好几个loading，就看起来很冗余，去也去不掉。  </p>
+<p>最后在交互和产品多方的沟通，可以用<strong>全屏loading</strong>来做一些复杂页面的交互。</p>
+<h4 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h4><ul>
+<li>首先确定基于antd的Spin组件进行一步封装；</li>
+<li>这loading的组件得挂载在body元素下面</li>
+<li>loading因为是全屏的，并且高度是100vh，因为Spin组件loading的定位是基于children的高度；</li>
+</ul>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> elDefault = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>);</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(elDefault);</span><br></pre></td></tr></table></figure>
+<p>因为全屏loading是挂载在body元素下面，所以首先创建一个div用于存放全屏loading的容器</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">reactRender</span> = (<span class="params"><span class="attr">element</span>: <span class="title class_">React</span>.<span class="title class_">ReactNode</span>, target?: <span class="title class_">Element</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="title class_">React</span>.<span class="title function_">createElement</span>(<span class="title class_">ConfigProvider</span>, &#123;&#125;, element);</span><br><span class="line">    <span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(res, target || elDefault);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个是挂载loading组件的节点，因为是基于Spin组件进行改装的，所以在loading的时候，需要Spin组件访问ConfigProvider的配置。<br>当然兼容了其他场景，也可以传入一个element元素，在那个元素进行loading。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">reactUnmount</span> = (<span class="params">target?: <span class="title class_">Element</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="title class_">ReactDOM</span>.<span class="title function_">unmountComponentAtNode</span>(target || elDefault);</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="title function_">changeConfirmLocale</span>(zhCN.<span class="property">Modal</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个是卸载loading组件的节点,changeConfirmLocale(zhCN.Modal),确保在卸载的时候，给modal设置中文的语言包</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">runLoading</span> = (<span class="params"><span class="attr">open</span>: <span class="built_in">boolean</span>, options?: <span class="title class_">SpinFullProps</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (open) &#123;</span><br><span class="line">        <span class="title function_">reactRender</span>(<span class="title class_">React</span>.<span class="title function_">createElement</span>(<span class="title class_">SpinFull</span>, options));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">reactUnmount</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>将刚才写的两个函数导入进来，open根据外部调用的时候传入进来，options则是Spin<br>组件的配置属性，外部调用接口runLoading(true)的时候进行全屏loading，然后再外部接口调用结束runLoading(false)进行卸载元素，这样一个全屏loading就实现了！！！</p>
+<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><p><img src="https://img.renlijia.com/202411/RLJv222kUC3l3zgSCTzUK2PO1E-931-769.png"></p>
+
+            </div>
+        </article>
+    </div>
+    <br>
+    
+        <div class="next-prev-post">
+            
+            
+                <div class="next-post">
+                    <div class="next gt-c-content-color-first">
+                        下一篇：<a href="/2024/10/17/%E5%A6%82%E4%BD%95%E9%94%80%E6%AF%81%E5%BC%B9%E7%AA%97%E5%86%85%E9%83%A8%E7%9A%84hook/" 
+                            class="post-title gt-a-link">如何销毁弹窗内部hook的状态</a>
+                    </div>
+                </div>
+            
+        </div>
+    
+    
+
+    
+
+</div>
+
+                <div class="site-footer gt-c-content-color-first">
+    <div class="footer-main">
+        <!-- 建议保留版权信息或者添加主题信息到友链，感谢您的理解 -->
+        <!-- 文件位置：layout/_includes/footer.ejs -->
+        <span style="text-align: right; float: right;">Theme <a 
+            href="https://github.com/renbaoshuo/hexo-theme-pure" target="_blank">Pure</a> | Powered by <a 
+            href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span style="text-align: left;">Footer HTML
+</span>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </body>
+</html>
