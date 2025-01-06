@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Title -->
+<title>移动端高清方案 - 李明漳的blog</title>
+
+<!-- Icon -->
+<link rel="icon" href="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg">
+
+<!-- Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" as="style" onload="this.onload=null, this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital@0;1&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+
+
+
+<!-- Style -->
+
+<link rel="stylesheet" href="/styles/main.css">
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-theme-pure@1.0.1/dist/main.css"> -->
+
+
+
+
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+    <meta name="generator" content="Hexo 7.3.0"></head>
+    <body>
+        <div class="main gt-bg-theme-color-first">
+            <div class="main-content">
+                <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            李明漳的blog
+        </div>
+    </div>
+    <button aria-label="Navbar Toggler" class="navbar-toggler" type="button" id="changeNavbar">
+        <i class="gt-c-content-color-first" style="font-size: 18px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18px" fill="currentColor">
+                <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+            </svg>
+        </i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center; ">
+            
+                <div class="nav-item">
+                    <a href="/" class="menu gt-a-link" target="_self">首页</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/archives/" class="menu gt-a-link" target="_self">归档</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/tags/" class="menu gt-a-link" target="_self">标签</a>
+                </div>
+            
+                <div class="nav-item">
+                    <a href="/friends/" class="menu gt-a-link" target="_self">友链</a>
+                </div>
+            
+        </div>
+    </div>
+</nav>
+
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = function() {
+        let element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else { 
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+                <div class="post-container">
+    <div class="post-detail gt-bg-theme-color-second gt-c-content-color-first">
+        <article class="gt-post-content">
+            <h1 class="post-title">移动端高清方案</h1>
+            <div class="post-info">
+                <time class="post-time gt-c-content-color-first">
+                    · 2025-01-06 ·</time>
+                
+                    
+                
+            </div>
+            <hr>
+            <div class="post-content gt-c-content-color-first">
+                <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>开发移动端<span class="variable constant_">H5</span>页面</span><br><span class="line"><span class="number">2.</span>面对不同分辨率的手机</span><br><span class="line"><span class="number">3.</span>面对不同屏幕尺寸的手机</span><br></pre></td></tr></table></figure>
+<h3 id="视觉稿"><a href="#视觉稿" class="headerlink" title="视觉稿"></a>视觉稿</h3><p>在前端开发之前，都会拿到一个PSD或者SKETCH的稿子，称之为视觉稿。<br>对于移动端开发而言，为了做到页面高清效果，视觉稿的规范往往会遵循以下两点：</p>
+<ol>
+<li>首先，选取一款手机的屏幕宽高作为基准（以前是iphone4 320<em>480，现在更多的是iphone6 375</em>667）</li>
+<li>对于retina屏幕（如:dpr&#x3D;2），为了达到高清的效果，视觉稿的画布大小会是基准的2倍，也就是说像素点个数是原来的4倍（对于iphone6而言，原先的375<em>667，就会变成750</em>1334）。<br>问题：</li>
+<li>对于dpr&#x3D;2的手机，为什么画布大小x2，就可以解决高清问题？</li>
+<li>对于2倍大小的视觉稿，在具体的css编码中如何还原每一个区块的真实宽高（也就是布局问题）？</li>
+</ol>
+<h4 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h4><h5 id="物理像素（physical-pixel）"><a href="#物理像素（physical-pixel）" class="headerlink" title="物理像素（physical pixel）"></a>物理像素（physical pixel）</h5><p>一个物理像素是显示器（手机屏幕）上最小的物理显示单元，在操作系统的调度下，每一个设备都有自己的颜色值和亮度值。 </p>
+<h5 id="设备独立像素（density-independent-pixel）"><a href="#设备独立像素（density-independent-pixel）" class="headerlink" title="设备独立像素（density-independent pixel）"></a>设备独立像素（density-independent pixel）</h5><p>设备独立像素（也叫密度无关像素），可以认为是计算机坐标中的一个点，这个点代表一个可以由程序使用的虚拟像素（比如：css像素），然后由相关系统转换为物理像素。可以理解成我们平时用的px<br>所以说，物理像素和设备独立像素之间存在这一定的对应关系，这就是接下来要说的设备像素比。</p>
+<h5 id="设备像素比（device-pixcel-ratio）"><a href="#设备像素比（device-pixcel-ratio）" class="headerlink" title="设备像素比（device pixcel ratio）"></a>设备像素比（device pixcel ratio）</h5><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在javascript中，可以通过<span class="variable language_">window</span>.<span class="property">devicePixelRatio</span>获取到当前设备的dpr。</span><br><span class="line">在css中，可以通过-webkit-device-pixel-ratio，-webkit-min-device-pixel-ratio和webkit-max-device-pixel-ratio进行媒体查询，对不同dpr的设备，做一些样式适配（这里只针对webkit内核浏览器和webview）。</span><br></pre></td></tr></table></figure>
+
+<p>综合上面几个概念，一起举例说明下：<br>以iphone6为例：</p>
+<ol>
+<li>设备宽高为375×667，可以理解为设备独立像素(或css像素)。</li>
+<li>dpr为2，根据上面的计算公式，其物理像素就应该×2，为750×1334。</li>
+</ol>
+
+            </div>
+        </article>
+    </div>
+    <br>
+    
+        <div class="next-prev-post">
+            
+            
+                <div class="next-post">
+                    <div class="next gt-c-content-color-first">
+                        下一篇：<a href="/2024/11/06/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B1%80loading/" 
+                            class="post-title gt-a-link">实现一个页面全屏loading</a>
+                    </div>
+                </div>
+            
+        </div>
+    
+    
+
+    
+
+</div>
+
+                <div class="site-footer gt-c-content-color-first">
+    <div class="footer-main">
+        <!-- 建议保留版权信息或者添加主题信息到友链，感谢您的理解 -->
+        <!-- 文件位置：layout/_includes/footer.ejs -->
+        <span style="text-align: right; float: right;">Theme <a 
+            href="https://github.com/renbaoshuo/hexo-theme-pure" target="_blank">Pure</a> | Powered by <a 
+            href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span style="text-align: left;">Footer HTML
+</span>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </body>
+</html>
